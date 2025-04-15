@@ -1,54 +1,70 @@
-import './App.css';
-import { useState, useEffect } from 'react';
-import TaskForm from './components/TaskForm';
-import TaskList from './components/TaskList';
-import Filter from './components/Filter';
+import "./App.css";
+import { useState, useEffect } from "react";
+import BookingForm from "./components/BookingForm";
+import BookingList from "./components/BookingList";
+import Filter from "./components/Filter";
 
+export default function App() {
+  const [bookings, setBookings] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const [sportsFacilities] = useState([
+    "Футбольне поле",
+    "Баскетбольний майданчик",
+    "Тенісний корт",
+    "Волейбольний майданчик",
+    "Спортивний зал"
+  ]);
 
-function App() {
-  const [tasks, setTasks] = useState([]);
-  const [filter, setFilter] = useState('all');
-
-  // Завантаження задач з localStorage
+  // Завантаження бронювань з localStorage
   useEffect(() => {
-    const savedTasks = localStorage.getItem('tasks');
-    if (savedTasks) {
-      setTasks(JSON.parse(savedTasks));
+    const savedBookings = localStorage.getItem("bookings");
+    if (savedBookings) {
+      setBookings(JSON.parse(savedBookings));
     }
   }, []);
 
-  // Збереження задач у localStorage
+  // Збереження бронювань у localStorage
   useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
+    localStorage.setItem("bookings", JSON.stringify(bookings));
+  }, [bookings]);
 
-  const addTask = (name) => {
-    setTasks([...tasks, { id: Date.now(), name, completed: false }]);
+  const addBooking = (facility, date, time) => {
+    setBookings([
+      ...bookings, 
+      { 
+        id: Date.now(), 
+        facility, 
+        date, 
+        time,
+        booked: false,
+        userName: "Користувач" // Можна додати форму для введення імені
+      }
+    ]);
   };
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
+  const deleteBooking = (id) => {
+    setBookings(bookings.filter((booking) => booking.id !== id));
   };
 
-  const toggleTask = (id) => {
-    setTasks(tasks.map(task =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    ));
+  const toggleBooking = (id) => {
+    setBookings(
+      bookings.map((booking) =>
+        booking.id === id ? { ...booking, booked: !booking.booked } : booking
+      )
+    );
   };
 
   return (
     <div className="app">
-      <h1>Список задач</h1>
-      <TaskForm onAdd={addTask} />
+      <h1>Бронювання спортивних майданчиків</h1>
+      <BookingForm onAdd={addBooking} sportsFacilities={sportsFacilities} />
       <Filter currentFilter={filter} onFilterChange={setFilter} />
-      <TaskList
-        tasks={tasks}
-        onDelete={deleteTask}
-        onToggle={toggleTask}
+      <BookingList
+        bookings={bookings}
+        onDelete={deleteBooking}
+        onToggle={toggleBooking}
         filter={filter}
       />
     </div>
   );
 }
-
-export default App;

@@ -1,24 +1,25 @@
 .app {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-.task-form {
+.booking-form {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-.task-form input {
-  flex-grow: 1;
+.booking-form select,
+.booking-form input {
   padding: 8px;
-  margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.task-form button {
+.booking-form button {
   padding: 8px 16px;
   background-color: #4CAF50;
   color: white;
@@ -27,30 +28,42 @@
   cursor: pointer;
 }
 
-.task {
+.booking {
   display: flex;
   align-items: center;
-  padding: 10px;
-  margin-bottom: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
   background-color: #f9f9f9;
-  border-radius: 4px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.task.completed span {
-  text-decoration: line-through;
-  color: #888;
+.booking.booked {
+  background-color: #e8f5e9;
+  border-left: 4px solid #4CAF50;
 }
 
-.task input[type="checkbox"] {
-  margin-right: 10px;
+.booking input[type="checkbox"] {
+  margin-right: 15px;
+  transform: scale(1.5);
 }
 
-.task span {
+.booking-info {
   flex-grow: 1;
 }
 
-.task button {
-  padding: 4px 8px;
+.booking-info h3 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.booking-info p {
+  margin: 3px 0;
+  color: #666;
+}
+
+.booking button {
+  padding: 8px 12px;
   background-color: #f44336;
   color: white;
   border: none;
@@ -64,7 +77,7 @@
 
 .filter button {
   margin-right: 10px;
-  padding: 6px 12px;
+  padding: 8px 16px;
   background-color: #e0e0e0;
   border: none;
   border-radius: 4px;
@@ -76,17 +89,22 @@
   color: white;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .app {
     padding: 10px;
   }
   
-  .task-form {
+  .booking-form {
     flex-direction: column;
   }
   
-  .task-form input {
-    margin-right: 0;
-    margin-bottom: 10px;
+  .booking {
+    flex-direction: column;
+    align-items: flex-start;
   }
-} 
+  
+  .booking button {
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+}
